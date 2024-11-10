@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT-liceum</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-image: url('images/logo.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 300px;
+            background-attachment: fixed;
+        }
+         /* Контейнер для логотипа и названия */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #b3e0ff; /* Голубой цвет фона */
+            border-radius: 3px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .logo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .org-name {
+            width: 75%;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            padding-left: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            margin: 5px;
+            background-color: #b3e0ff;
+            flex: 1 1 150px;
+            max-width: 200px;
+            box-sizing: border-box;
+        }
+        .tab.active {
+            background-color: #ddd;
+            font-weight: bold;
+        }
+        .content {
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+        .nested-tabs {
+            display: none;
+            margin-top: 20px;
+        }
+        .nested-tab {
+            display: inline-block;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            background-color: #b3e0ff;
+            margin-right: 5px;
+        }
+        .nested-tab.active {
+            background-color: #ddd;
+            font-weight: bold;
+        }
+        .nested-content {
+            display: none;
+            margin-top: 10px;
+            background-position: center;
+            background-size: 300px;
+            background-attachment: fixed;
+        }
+        .graph-text-container {
+            display: flex;
+            align-items: flex-start;
+        }
+        .graph {
+            width: 50%;
+            height: auto;
+            margin-right: 20px;
+        }
+        .text {
+            width: 50%;
+        }
+        .formula {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .formula h2 {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .formula-equation {
+            font-style: italic;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+         .table-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+    </style>
+
+    <!-- Подключение MathJax -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                tags: 'ams'
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'code'],
+                processHtmlClass: 'mathjax-process'
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+<body>
+    <!-- Логотип и название организации -->
+    <div class="header">
+        <div class="logo">
+            <img src="images/background.png" alt="Логотип организации">
+        </div>
+        <div class="org-name">
+            КГУ "Специализированный IT-лицей"
+        </div>
+    </div>
+    <!-- Формула индекса -->
+    <div class="formula mathjax-process">
+        <h2>Основная формула индекса</h2>
+        <p>Для того, чтобы математически оценить вклад каждого из показателей, а также высчитать индекс благосостояния, мы будем использовать формулу взвешенной суммы:</p>
+        <p class="formula-equation">
+            $$\text{WLI} = \sum_{i=1}^{n} w_i \cdot I_i$$
+        </p>
+        <p>
+            <strong>Где:</strong><br>
+            WLI – обозначение для взвешенного уровня индекса<br>
+            \( w_i \) – вес i-ого показателя<br>
+            \( I_i \) – значение i-ого показателя<br>
+            \( n \) – общее количество показателей
+        </p>
+    </div>
+
+<!------------- -->
+  <!-- Таблица для расчета I и w -->
+    <div class="table-container">
+        <table>
+            <tr>
+                <td rowspan="3" class="mathjax-process">
+                    Метод MinMaxScaler:<br>
+                    $$I = \frac{I_{\text{тек}} - I_{\min}}{I_{\max} - I_{\min}}$$
+                    <p>
+                        <strong>Где:</strong><br>
+                        \( I \) — нормализованное значение<br>
+                        \( I_{\text{тек}} \) — текущее значение показателя<br>
+                        \( I_{\min} \) — минимальное значение в наборе данных для показателя<br>
+                        \( I_{\max} \) — максимальное значение в наборе данных для показателя
+                    </p>
+                </td>
+                <td rowspan="3" class="mathjax-process">
+                    Формула для среднеквадратической ошибки (СКО):<br>
+                    $$\text{СКО} = \frac{1}{N} \sum_{i=1}^{n} (\hat{y}_i - y_i)^2$$
+                    <p>
+                        <strong>Где:</strong><br>
+                        \( \hat{y}_i \) — фактическое значение показателя i<br>
+                        \( y_i \) — предсказанное значение для наблюдения i<br>
+                        \( N \) — общее количество наблюдений
+                    </p>
+                </td>
+            </tr>
+            <!-- Добавьте больше строк по необходимости -->
+        </table>
+    </div>
+
+    <div class="tabs-container">
+        <div class="tabs"></div>
+    </div>
+
+    <div class="content-container"></div>
+
+    <template id="tab-template">
+        <div class="tab" data-tab="">
+            <span></span>
+        </div>
+    </template>
+
+    <template id="content-template">
+        <div class="nested-tabs" data-content="">
+            <div class="graph-text-container">
+                <img src="" alt="" class="graph main-graph">
+                <div class="text main-text">
+                    <p></p>
+                </div>
+            </div>
+            <div class="nested-tab-container"></div>
+            <div class="nested-content-container"></div>
+        </div>
+    </template>
+
+    <template id="nested-tab-template">
+        <div class="nested-tab" data-nested="">
+            <span></span>
+        </div>
+    </template>
+
+    <template id="nested-content-template">
+        <div class="nested-content" data-content="">
+            <div class="graph-text-container">
+                <img src="" alt="" class="graph">
+                <div class="text">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+<!------------- -->
+    <div class="tabs-container">
+        <div class="tabs"></div>
+    </div>
+
+    <div class="content-container"></div>
+
+    <template id="tab-template">
+        <div class="tab" data-tab="">
+            <span></span>
+        </div>
+    </template>
+
+    <template id="content-template">
+        <div class="nested-tabs" data-content="">
+            <div class="graph-text-container">
+                <img src="" alt="" class="graph main-graph">
+                <div class="text main-text">
+                    <p></p>
+                </div>
+            </div>
+            <div class="nested-tab-container"></div>
+            <div class="nested-content-container"></div>
+        </div>
+    </template>
+
+    <template id="nested-tab-template">
+        <div class="nested-tab" data-nested="">
+            <span></span>
+        </div>
+    </template>
+
+    <template id="nested-content-template">
+        <div class="nested-content" data-content="">
+            <div class="graph-text-container">
+                <img src="" alt="" class="graph">
+                <div class="text">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+
+<div class="tabs-container">
+    <div class="tabs"></div> <!-- Контейнер для вкладок -->
+</div>
+
+<div class="content-container"></div> <!-- Контейнер для содержимого -->
+
+<!-- Шаблон для вкладок -->
+<template id="tab-template">
+    <div class="tab" data-tab="">
+        <span></span>
+    </div>
+</template>
+
+<!-- Шаблон для содержимого с вложенными вкладками -->
+<template id="content-template">
+    <div class="nested-tabs" data-content="">
+        <div class="graph-text-container">
+            <img src="" alt="" class="graph main-graph">
+            <div class="text main-text">
+                <p></p> <!-- Контейнер для описания главной вкладки -->
+            </div>
+        </div>
+        <div class="nested-tab-container"></div> <!-- Контейнер для вложенных вкладок -->
+        <div class="nested-content-container"></div> <!-- Контейнер для вложенного содержимого -->
+    </div>
+</template>
+
+<!-- Шаблон для вложенных вкладок -->
+<template id="nested-tab-template">
+    <div class="nested-tab" data-nested="">
+        <span></span>
+    </div>
+</template>
+
+<!-- Шаблон для вложенного содержимого -->
+<template id="nested-content-template">
+    <div class="nested-content" data-content="">
+        <div class="graph-text-container">
+            <img src="" alt="" class="graph">
+            <div class="text">
+                <p></p> <!-- Контейнер для описания вложенного содержимого -->
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+
+// Данные о регионах и вложенном содержимом
+const regions = [
+     {
+        name: 'Индекс Казахстана',
+        tab: 'IndexKaz',
+        img: 'images/Kaz/main/index_kaz.png', // Изображение для главной вкладки
+        mainText:`<strong><br>Индекс благосостояния Казахстана</strong><br>
+
+         В Казахстане индекс благополучия за последние годы также находился под воздействием множества экономических, социальных и экологических факторов. Страна столкнулась с вызовами в области экономической стабильности,
+         особенно в условиях глобальных кризисов, таких как пандемия COVID-19 и резкие колебания мировых цен на энергоресурсы. Это привело к росту инфляции, что снизило покупательную способность населения и увеличило неравенство,
+         особенно затронув слои населения с низкими доходами.
+         Уровень преступности в Казахстане также остался важным аспектом, влияющим на социальное благополучие. Экономические трудности способствовали росту преступлений против собственности и снижению доверия к системе правопорядка,
+         что ухудшило общее ощущение безопасности.
+         Сохранение экологического баланса является ещё одной важной задачей для Казахстана, так как стране приходится решать проблемы с качеством воздуха, водных ресурсов и деградацией земель, вызванной добычей ископаемых.
+         Эти экологические проблемы оказывают давление на местные сообщества и ресурсы, что также отражается на качестве жизни населения.
+         Социальные инвестиции в образование и здравоохранение внесли положительный вклад в рост уровня образования и доступности медицинских услуг, но остаётся заметным региональное неравенство.
+         Доступ к качественным услугам варьируется, и особенно труднодоступными они остаются для сельских районов.
+         Таким образом, для повышения уровня благополучия Казахстану необходим комплексный подход, направленный на стабилизацию экономики, обеспечение социальной справедливости и устойчивое использование природных ресурсов.`,
+        nestedTabs: [
+            { name: 'Продолжительность жизни (Life Expectancy)',
+              content: `
+                <strong>Ожидаемая продолжительности жизни при рождении (Life Expectancy at Birth)</strong> - является важным индикатором здоровья и благосостояния страны,
+                отражающий не только качество медицинских услуг, но и условия жизни, питание, экологию, а также доступность и качество образования.
+                 Это международно признанный показатель как Всемирной организацией здравоохранения (WHO), так и программой развития ООН (UNDP).
+            `,
+              img: 'images/Kaz/main/kaz_life.png',
+              alt: 'Продолжительность жизни' },
+            { name: 'Уровень преступности (Crime Rate)',
+              content: `
+                <strong>Уровень убийств на 100000 человек </strong> - напрямую отражает социальную стабильность и безопасность в стране.
+                Высокие показатели убийств обычно указывают на наличие насилия, преступности и политической нестабильности, что негативно сказывается на качестве жизни граждан.
+                Этот показатель является индикатором криминальной ситуации и уровня доверия к власти.
+                Использование уровня убийств на 100,000 человек предпочтительнее, чем простого количества убийств, так как это позволяет учитывать различия в численности населения между странами.
+            `,
+              img: 'images/Kaz/main/kaz_crime_rate.png',
+              alt: 'Уровень преступности' },
+            { name: 'Уровень зарплаты (Income Level)',
+              content: `
+                <strong>ВВП на душу населения по паритету покупательной способности (PPP)</strong> в международных долларах рассчитывается делением общего объема произведенных товаров и услуг (ВВП) на численность населения,
+                а затем корректируется с учетом различий в стоимости жизни в каждой стране. Для этого ВВП пересчитывают по курсу паритета покупательной способности, который отражает,
+                сколько единиц местной валюты потребуется для покупки одинакового набора товаров и услуг, что и в базовой стране (в нашем случае – США)
+                Этот метод отличается от обычного ВВП, который может искажать фактический уровень жизни, так как не учитывает разницу в ценах на уровне стран.
+                Например, одинаковый номинальный доход может означать большее или меньшее реальное благосостояние в зависимости от уровня цен на жилье, еду, медицинские услуги и прочие товары.
+
+            `,
+              img: 'images/Kaz/main/kaz_income_level.png',
+              alt: 'Уровень зарплаты' },
+
+            { name: 'Инфляция (Inflation)',
+              content: `
+                 <strong>Среднегодовая инфляция (по методу индекса потребительских цен, CPI)</strong> -  показатель является стабильным и надежным для анализа.
+                 Он учитывает инфляционные изменения в течение всего года, сглаживая сезонные колебания, и, таким образом, дает более объективное значение, чем, например, ежемесячная инфляция.
+                 Кроме того, среднегодовая инфляция широко используется в международной статистике и исследованиях, что делает ее удобной для сравнения с данными других стран.
+            `,
+              img: 'images/Kaz/main/kaz_inflation.png',
+              alt: 'Уровень инфляции' },
+            { name: 'Образование (Еducation)',
+              content: `
+                <strong>Ожидаемые года обучения</strong> — это ожидаемое количество лет обучения, которое должен пройти ребенок, начиная с того момента, когда он вступает в школьное образование, с учетом текущих условий системы образования в стране.
+                Этот показатель учитывает уровень доступа к образованию, включая вероятность, что ребенок будет продолжать учёбу до определенного возраста, и позволяет учитывать будущие улучшения в системе образования.
+            `,
+              img: 'images/Kaz/main/kaz_education.png',
+              alt: 'Уровень образования' },
+            { name: 'Экология (Environmental Quality)', content: `
+                <strong>Выбросы парниковых газов (GHG)</strong>  — решение, направленное на оценку влияния экологических факторов на благополучие стран.
+                GHG является обобщённым показателем воздействия на климат, объединяя различные виды парниковых газов, каждый из которых оказывает разное воздействие на атмосферу и биоразнообразие.
+                Именно агрегированные данные позволяют оценить суммарное влияние всех газов, таких как метан, углекислый газ и закись азота, на потепление климата.
+            `,
+              img: 'images/Kaz/main/kaz_quality.png',
+              alt: 'Уровень экологии' },
+        ]
+    },
+     {
+        name: 'Коста-Рика',
+        tab: 'IndexKosta',
+        img: 'images/Kosta-Rika/kosta_index.png', // Изображение для главной вкладки
+        mainText:`<strong><br>Индекс благосостояния Коста-Рики</strong><br>
+
+         Индекс благосостояния в Коста-Рике с 2012 по 2022 годы оказался под влиянием ряда экономических, социальных и экологических факторов. Экономический кризис, вызванный пандемией COVID-19, рост безработицы,
+         бедности и инфляции существенно ухудшили условия жизни для многих костариканцев, особенно для семей с низким доходом.
+         Повышение уровня преступности и рост насильственных преступлений также ослабили чувство безопасности в обществе.
+         С другой стороны, страна продолжала делать акцент на инвестициях в образование и здравоохранение, что поддерживало положительные тенденции в ожидаемой продолжительности жизни и уровне образования,
+         несмотря на сохраняющееся социальное неравенство, особенно в сельской местности. Экологические проблемы также остаются важной задачей,
+         поскольку рост выбросов парниковых газов и изменения климата оказывают дополнительное давление на экономику и ресурсы страны.
+         Таким образом, для достижения устойчивого роста и повышения уровня благополучия Коста-Рике необходимы комплексные меры, которые будут учитывать как экономические и социальные потребности населения, так и защиту окружающей среды.`,
+        nestedTabs: [
+            { name: 'Продолжительность жизни (Life Expectancy)',
+              content: `
+                <strong>Ожидаемая продолжительности жизни при рождении (Life Expectancy at Birth)</strong> - является важным индикатором здоровья и благосостояния страны,
+                отражающий не только качество медицинских услуг, но и условия жизни, питание, экологию, а также доступность и качество образования.
+                 Это международно признанный показатель как Всемирной организацией здравоохранения (WHO), так и программой развития ООН (UNDP).
+            `,
+              img: 'images/Kosta-Rika/kosta_life.png',
+              alt: 'Продолжительность жизни' },
+            { name: 'Уровень преступности (Crime Rate)',
+              content: `
+                <strong>Уровень убийств на 100000 человек </strong> - напрямую отражает социальную стабильность и безопасность в стране.
+                Высокие показатели убийств обычно указывают на наличие насилия, преступности и политической нестабильности, что негативно сказывается на качестве жизни граждан.
+                Этот показатель является индикатором криминальной ситуации и уровня доверия к власти.
+                Использование уровня убийств на 100,000 человек предпочтительнее, чем простого количества убийств, так как это позволяет учитывать различия в численности населения между странами.
+            `,
+              img: 'images/Kosta-Rika/kosta_crime_rate.png',
+              alt: 'Уровень преступности' },
+            { name: 'Уровень зарплаты (Income Level)',
+              content: `
+                 <strong>ВВП на душу населения по паритету покупательной способности (PPP)</strong> в международных долларах рассчитывается делением общего объема произведенных товаров и услуг (ВВП) на численность населения,
+                а затем корректируется с учетом различий в стоимости жизни в каждой стране. Для этого ВВП пересчитывают по курсу паритета покупательной способности, который отражает,
+                сколько единиц местной валюты потребуется для покупки одинакового набора товаров и услуг, что и в базовой стране (в нашем случае – США)
+                Этот метод отличается от обычного ВВП, который может искажать фактический уровень жизни, так как не учитывает разницу в ценах на уровне стран.
+                Например, одинаковый номинальный доход может означать большее или меньшее реальное благосостояние в зависимости от уровня цен на жилье, еду, медицинские услуги и прочие товары.
+            `,
+              img: 'images/Kosta-Rika/kosta_income_level.png',
+              alt: 'Уровень зарплаты' },
+
+            { name: 'Инфляция (Inflation)',
+              content: `
+                <strong>Среднегодовая инфляция (по методу индекса потребительских цен, CPI)</strong> -  показатель является стабильным и надежным для анализа.
+                 Он учитывает инфляционные изменения в течение всего года, сглаживая сезонные колебания, и, таким образом, дает более объективное значение, чем, например, ежемесячная инфляция.
+                 Кроме того, среднегодовая инфляция широко используется в международной статистике и исследованиях, что делает ее удобной для сравнения с данными других стран.
+            `,
+              img: 'images/Kosta-Rika/kosta_inflation.png',
+              alt: 'Уровень инфляции' },
+            { name: 'Образование (Еducation)',
+              content: `
+                <strong>Ожидаемые года обучения</strong> — это ожидаемое количество лет обучения, которое должен пройти ребенок, начиная с того момента, когда он вступает в школьное образование, с учетом текущих условий системы образования в стране.
+                Этот показатель учитывает уровень доступа к образованию, включая вероятность, что ребенок будет продолжать учёбу до определенного возраста, и позволяет учитывать будущие улучшения в системе образования.
+            `,
+              img: 'images/Kosta-Rika/kosta_education.png',
+              alt: 'Уровень образования' },
+            { name: 'Экология (Environmental Quality)', content: `
+                <strong>Выбросы парниковых газов (GHG)</strong>  — решение, направленное на оценку влияния экологических факторов на благополучие стран.
+                GHG является обобщённым показателем воздействия на климат, объединяя различные виды парниковых газов, каждый из которых оказывает разное воздействие на атмосферу и биоразнообразие.
+                Именно агрегированные данные позволяют оценить суммарное влияние всех газов, таких как метан, углекислый газ и закись азота, на потепление климата.
+            `,
+              img: 'images/Kosta-Rika/kosta_quality.png',
+              alt: 'Уровень экологии' },
+        ]
+    },
+     {
+        name: 'Испания',
+        tab: 'IndexIspain',
+        img: 'images/Ispain/ispain_index.png', // Изображение для главной вкладки
+        mainText:`<strong><br>Индекс благосостояния Испании</strong><br>
+
+         Испания прошла через ряд социальных, экономических и экологических испытаний, которые оказали значительное влияние на благосостояние и стабильность страны.
+         Влияние экономического кризиса 2008 года привело к повышению уровня преступности в некоторых районах, росту инфляции и безработицы. Эти факторы особенно затронули домохозяйства с низким доходом, ухудшив их покупательную способность и экономическое благосостояние.
+         Экологические проблемы, такие как засуха и загрязнение воздуха, также стали серьезными вызовами. В ответ правительство инвестировало в возобновляемые источники энергии, но политические разногласия замедлили реализацию устойчивых инициатив.
+         Нехватка воды и последствия изменения климата увеличивают нагрузку на государственные ресурсы.
+         Экономическое восстановление Испании сопровождалось значительным ростом инфляции, особенно в период пандемии COVID-19, что повлияло на цены на основные товары.
+         Однако уровень безработицы, особенно среди молодежи, остается высоким, несмотря на государственные программы трудоустройства и реформы в образовании и профессиональном обучении.
+         В социальном плане Испания активно инвестирует в образование и здравоохранение, что помогает смягчать последствия экономического давления и поддерживать стабильный доступ к услугам.
+         Однако страна сталкивается с вызовами старения населения и необходимостью укрепления социальной инфраструктуры.
+
+В целом Испания предпринимает шаги по улучшению различных аспектов благосостояния и социальной структуры, но по-прежнему нуждается в стратегическом подходе для решения проблем, связанных с неравенством, устойчивым развитием и поддержанием социальной стабильности..`,
+        nestedTabs: [
+            { name: 'Продолжительность жизни (Life Expectancy)',
+              content: `
+                <strong>Ожидаемая продолжительности жизни при рождении (Life Expectancy at Birth)</strong> - является важным индикатором здоровья и благосостояния страны,
+                отражающий не только качество медицинских услуг, но и условия жизни, питание, экологию, а также доступность и качество образования.
+                 Это международно признанный показатель как Всемирной организацией здравоохранения (WHO), так и программой развития ООН (UNDP).
+            `,
+              img: 'images/Ispain/ispain_life.png',
+              alt: 'Продолжительность жизни' },
+            { name: 'Уровень преступности (Crime Rate)',
+              content: `
+                <strong>Уровень убийств на 100000 человек </strong> - напрямую отражает социальную стабильность и безопасность в стране.
+                Высокие показатели убийств обычно указывают на наличие насилия, преступности и политической нестабильности, что негативно сказывается на качестве жизни граждан.
+                Этот показатель является индикатором криминальной ситуации и уровня доверия к власти.
+                Использование уровня убийств на 100,000 человек предпочтительнее, чем простого количества убийств, так как это позволяет учитывать различия в численности населения между странами.
+            `,
+              img: 'images/Ispain/ispain_crime_rate.png',
+              alt: 'Уровень преступности' },
+            { name: 'Уровень зарплаты (Income Level)',
+              content: `
+                 <strong>ВВП на душу населения по паритету покупательной способности (PPP)</strong> в международных долларах рассчитывается делением общего объема произведенных товаров и услуг (ВВП) на численность населения,
+                а затем корректируется с учетом различий в стоимости жизни в каждой стране. Для этого ВВП пересчитывают по курсу паритета покупательной способности, который отражает,
+                сколько единиц местной валюты потребуется для покупки одинакового набора товаров и услуг, что и в базовой стране (в нашем случае – США)
+                Этот метод отличается от обычного ВВП, который может искажать фактический уровень жизни, так как не учитывает разницу в ценах на уровне стран.
+                Например, одинаковый номинальный доход может означать большее или меньшее реальное благосостояние в зависимости от уровня цен на жилье, еду, медицинские услуги и прочие товары.
+            `,
+              img: 'images/Ispain/ispain_income_level.png',
+              alt: 'Уровень зарплаты' },
+
+            { name: 'Инфляция (Inflation)',
+              content: `
+                <strong>Среднегодовая инфляция (по методу индекса потребительских цен, CPI)</strong> -  показатель является стабильным и надежным для анализа.
+                 Он учитывает инфляционные изменения в течение всего года, сглаживая сезонные колебания, и, таким образом, дает более объективное значение, чем, например, ежемесячная инфляция.
+                 Кроме того, среднегодовая инфляция широко используется в международной статистике и исследованиях, что делает ее удобной для сравнения с данными других стран.
+            `,
+              img: 'images/Ispain/ispain_inflation.png',
+              alt: 'Уровень инфляции' },
+            { name: 'Образование (Еducation)',
+              content: `
+                <strong>Ожидаемых годов обучения</strong> — это ожидаемое количество лет обучения, которое должен пройти ребенок, начиная с того момента, когда он вступает в школьное образование, с учетом текущих условий системы образования в стране.
+                Этот показатель учитывает уровень доступа к образованию, включая вероятность, что ребенок будет продолжать учёбу до определенного возраста, и позволяет учитывать будущие улучшения в системе образования.
+            `,
+              img: 'images/Ispain/ispain_education.png',
+              alt: 'Уровень образования' },
+            { name: 'Экология (Environmental Quality)', content: `
+                <strong>Выбросы парниковых газов (GHG)</strong>  — решение, направленное на оценку влияния экологических факторов на благополучие стран.
+                GHG является обобщённым показателем воздействия на климат, объединяя различные виды парниковых газов, каждый из которых оказывает разное воздействие на атмосферу и биоразнообразие.
+                Именно агрегированные данные позволяют оценить суммарное влияние всех газов, таких как метан, углекислый газ и закись азота, на потепление климата.
+            `,
+              img: 'images/Ispain/ispain_quality.png',
+              alt: 'Уровень экологии' },
+        ]
+    }
+
+
+    // Добавьте другие области с уникальными данными
+];
+
+// Создание вкладок и содержимого динамически
+const tabsContainer = document.querySelector('.tabs');
+const contentContainer = document.querySelector('.content-container');
+const tabTemplate = document.getElementById('tab-template');
+const contentTemplate = document.getElementById('content-template');
+const nestedTabTemplate = document.getElementById('nested-tab-template');
+const nestedContentTemplate = document.getElementById('nested-content-template');
+
+regions.forEach(region => {
+    // Создаем вкладку
+    const newTab = tabTemplate.content.cloneNode(true);
+    const tab = newTab.querySelector('.tab');
+    tab.setAttribute('data-tab', region.tab);
+    tab.querySelector('span').textContent = region.name;
+    tabsContainer.appendChild(newTab);
+
+    // Создаем основной контент
+    const newContent = contentTemplate.content.cloneNode(true);
+    const content = newContent.querySelector('.nested-tabs');
+    content.setAttribute('data-content', region.tab);
+
+    // Заполняем график и текст для главной вкладки
+    const mainGraph = newContent.querySelector('.main-graph');
+    mainGraph.setAttribute('src', region.img);
+    mainGraph.setAttribute('alt', region.name);
+    const mainText = newContent.querySelector('.main-text p');
+    mainText.innerHTML = region.mainText; // Используем innerHTML для отображения HTML-кода
+
+    const nestedTabContainer = newContent.querySelector('.nested-tab-container');
+    const nestedContentContainer = newContent.querySelector('.nested-content-container');
+
+
+    // Очищаем контейнеры, если они уже содержат элементы
+    nestedTabContainer.innerHTML = '';
+    nestedContentContainer.innerHTML = '';
+
+    // Создаем вложенные вкладки и их содержимое
+    region.nestedTabs.forEach(nested => {
+        // Вложенная вкладка
+        const newNestedTab = nestedTabTemplate.content.cloneNode(true);
+        const nestedTab = newNestedTab.querySelector('.nested-tab');
+        nestedTab.setAttribute('data-nested', nested.name);
+        nestedTab.querySelector('span').textContent = nested.name;
+        nestedTabContainer.appendChild(newNestedTab);
+
+        // Вложенное содержимое
+        const newNestedContent = nestedContentTemplate.content.cloneNode(true);
+        const nestedContent = newNestedContent.querySelector('.nested-content');
+        nestedContent.setAttribute('data-content', nested.name);
+        const img = newNestedContent.querySelector('.graph');
+        img.setAttribute('src', nested.img);
+        img.setAttribute('alt', nested.alt);
+        const text = newNestedContent.querySelector('.text p');
+        text.innerHTML = nested.content; // Используем innerHTML для отображения HTML-кода
+        nestedContentContainer.appendChild(newNestedContent);
+    });
+
+    contentContainer.appendChild(newContent);
+});
+
+// Логика для переключения вкладок и отображения содержимого
+tabsContainer.addEventListener('click', (event) => {
+    const clickedTab = event.target.closest('.tab');
+    if (!clickedTab) return;
+
+    // Удаляем активные классы
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.nested-tabs').forEach(content => content.style.display = 'none');
+
+    // Активируем выбранную вкладку
+    clickedTab.classList.add('active');
+    const selectedContent = document.querySelector(`.nested-tabs[data-content="${clickedTab.getAttribute('data-tab')}"]`);
+    selectedContent.style.display = 'block';
+
+    // Активируем первую вложенную вкладку по умолчанию
+    const firstNestedTab = selectedContent.querySelector('.nested-tab');
+    if (firstNestedTab) firstNestedTab.click();
+});
+
+// Логика для переключения вложенных вкладок
+document.addEventListener('click', (event) => {
+    if (event.target.closest('.nested-tab')) {
+        const clickedNestedTab = event.target.closest('.nested-tab');
+        const parentTabs = clickedNestedTab.closest('.nested-tabs');
+
+        // Удаляем активные классы
+        parentTabs.querySelectorAll('.nested-tab').forEach(nt => nt.classList.remove('active'));
+        parentTabs.querySelectorAll('.nested-content').forEach(nc => nc.style.display = 'none');
+
+        // Активируем выбранную вложенную вкладку
+        clickedNestedTab.classList.add('active');
+        const selectedNestedContent = parentTabs.querySelector(`.nested-content[data-content="${clickedNestedTab.getAttribute('data-nested')}"]`);
+        selectedNestedContent.style.display = 'block';
+    }
+});
+
+</script>
+
+</body>
+</html>
